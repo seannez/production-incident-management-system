@@ -7,6 +7,7 @@ import { mockIncidents } from "../data/mockIncidents";
 
 function IncidentsPage() {
     const [selectedStatus, setSelectedStatus] = useState("all");
+    //Filter then use in component
     const filteredIncidents =
         selectedStatus === "all" ? mockIncidents : mockIncidents.filter((incident) => incident.status === selectedStatus);
         
