@@ -1,4 +1,6 @@
 //Incident card component.
+//Links to incidentDetailsPage
+import { Link } from "react-router-dom";
 
 function IncidentCard({ incident }) {
     return(
@@ -10,6 +12,7 @@ function IncidentCard({ incident }) {
             <p>Affected Service: {incident.affectedService}</p>
             <p>Assigned To: {incident.assignedTo}</p>
             
+            <Link to={`/incidents/${incident.id}`}>View Details</Link> 
         </article>
     )
 }
