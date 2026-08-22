@@ -4,12 +4,28 @@ import IncidentFilters from "../components/incidents/IncidentFilters";
 import { useState } from "react";
 import IncidentList from "../components/incidents/IncidentList";
 import { mockIncidents } from "../data/mockIncidents";
+import EmptyState from "../components/common/EmptyState";
 
 function IncidentsPage() {
     const [selectedStatus, setSelectedStatus] = useState("all");
+    const [selectedSeverity, setSelectedSeverity] = useState("all");
+    const [searchTerm, setSearchTerm] = useState(""); //Filters by title of the incident
+
+
+    
     //Filter then use in component
     const filteredIncidents =
-        selectedStatus === "all" ? mockIncidents : mockIncidents.filter((incident) => incident.status === selectedStatus);
+       mockIncidents.filter((incident) => {
+        const matchesStatus = selectedStatus === "all" || incident.status === selectedStatus;
+        const matchesSeverity = selectedSeverity === "all" || incident.severity === selectedSeverity;
+        const matchesSearch = incident.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        incident.affectedService
+       .toLowerCase()
+       .includes(searchTerm.toLowerCase());
+        
+        return matchesStatus && matchesSeverity && matchesSearch;
+       }//End of filter
+    )
         
     return(
         <main>
@@ -17,8 +33,16 @@ function IncidentsPage() {
             <IncidentFilters
                 selectedStatus={selectedStatus}
                 onStatusChange={setSelectedStatus}
+                selectedSeverity={selectedSeverity}
+                onSeverityChange={setSelectedSeverity}
+                searchTerm={searchTerm}
+                onSearchChange={setSearchTerm}
             />
-            <IncidentList incidents = {filteredIncidents} />
+            {filteredIncidents.length === 0 ? (
+                <EmptyState />
+            ) : (
+                <IncidentList incidents={filteredIncidents} />
+            )}
         </main>
     )
 }
