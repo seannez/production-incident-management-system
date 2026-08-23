@@ -1,1 +1,37 @@
 // Placeholder for incidents controller.
+const incidents = [
+  {
+    id: 1,
+    title: "Payment API unavailable",
+    description: "Payment requests are returning HTTP 500 errors.",
+    severity: "critical",
+    status: "open",
+    affectedService: "Payments API",
+    assignedTo: "Shon",
+    createdAt: "2026-08-10T17:30:00",
+  },
+  {
+    id: 2,
+    title: "Slow database queries",
+    description: "Several queries are taking more than 5 seconds.",
+    severity: "high",
+    status: "investigating",
+    affectedService: "PostgreSQL",
+    assignedTo: "Daniel",
+    createdAt: "2026-08-10T16:15:00",
+  },
+  {
+    id: 3,
+    title: "Authentication timeout",
+    description: "Some users are experiencing login timeouts.",
+    severity: "medium",
+    status: "resolved",
+    affectedService: "Authentication Service",
+    assignedTo: "Noa",
+    createdAt: "2026-08-10T13:45:00",
+  },
+];
+
+export function getAllIncidents(req, res){
+    res.status(200).json(incidents);
+}

@@ -1,0 +1,25 @@
+{
+  "name": "production-incident-management-system",
+  "version": "1.0.0",
+  "description": "- Frontend: React + Vite + JavaScript + React Router\r - Backend: Node.js + Express + PostgreSQL driver (pg) + cors + dotenv\r - Backend development: nodemon",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run dev --prefix client\" \"npm run dev --prefix server\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/seannez/production-incident-management-system.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/seannez/production-incident-management-system/issues"
+  },
+  "homepage": "https://github.com/seannez/production-incident-management-system#readme",
+  "devDependencies": {
+    "concurrently": "^10.0.5"
+  }
+}
