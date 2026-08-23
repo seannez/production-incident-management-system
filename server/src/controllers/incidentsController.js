@@ -1,4 +1,5 @@
 // Placeholder for incidents controller.
+import pool from "../config/database.js";
 const incidents = [
   {
     id: 1,
@@ -55,4 +56,21 @@ export function getIncidentById(req, res) {
         return res.status(404).json({ message: "Incident not found" });
     }
     res.status(200).json(incident);
+}
+
+export function createIncident(req, res) {
+    const { title, description, severity, affectedService} = req.body;
+    const newIncident = {
+        id: incidents.length + 1,
+        title,
+        description,
+        severity,
+        status: "open",
+        affectedService,
+        assignedTo: "Unassigned",
+        createdAt: new Date().toISOString(),
+    }
+    //Right now it updates the mock data - will be changed
+    incidents.push(newIncident);
+    res.status(201).json(newIncident);
 }

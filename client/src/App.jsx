@@ -5,7 +5,7 @@ import IncidentDetailsPage from "./pages/IncidentDetailsPage";
 import { useState } from "react";
 import CreateIncidentPage from "./pages/CreateIncidentPage";
 import { useEffect } from "react";
-import { fetchIncidents } from "./api/incidentsApi";
+import { fetchIncidents, createIncident, } from "./api/incidentsApi";
 
 function App() {
   const [incidents, setIncidents] = useState([]);
@@ -20,15 +20,9 @@ function App() {
     loadIncidents();
   }, []);
 
-  function AddIncident(incidentData) {
-    const newData = {
-      id: Date.now(),
-      ...incidentData,
-      status: "open",
-      assignedTo: "Unassigned",
-      createdAt: new Date().toISOString()
-    };
-    setIncidents((prevIncidents) => [newData, ...prevIncidents]);
+  async function AddIncident(incidentData) {
+    const newIncident = await createIncident(incidentData);
+    setIncidents((prevIncidents) => [newIncident, ...prevIncidents]);
   }
  //When we use the function from useState in paranthesis we get current state value
   function updateStatus(incidentId, newStatus) {
