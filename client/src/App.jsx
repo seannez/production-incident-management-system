@@ -4,11 +4,21 @@ import IncidentsPage from "./pages/IncidentsPage";
 import IncidentDetailsPage from "./pages/IncidentDetailsPage";
 import { useState } from "react";
 import CreateIncidentPage from "./pages/CreateIncidentPage";
-
-import { mockIncidents } from "./data/mockIncidents";
+import { useEffect } from "react";
+import { fetchIncidents } from "./api/incidentsApi";
 
 function App() {
-  const [incidents, setIncidents] = useState(mockIncidents);
+  const [incidents, setIncidents] = useState([]);
+
+  useEffect(() => {
+    //Function definition
+    async function loadIncidents(){
+      const data =  await fetchIncidents();
+      setIncidents(data);
+    }
+    //Function call
+    loadIncidents();
+  }, []);
 
   function AddIncident(incidentData) {
     const newData = {
