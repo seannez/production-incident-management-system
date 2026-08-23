@@ -29,19 +29,19 @@ function IncidentsPage( {incidents}) {
     )
         
     return(
-        <main>
-            <h1>Production Incidents: </h1>
-            <Link to="/incidents/new">
+        <main className="incidents-page">
+            <h1 className="page-heading">Production Incidents</h1>
+            <Link className="create-inline-link" to="/incidents/new">
                 Create Incident
             </Link>
-            <IncidentFilters
+            <div className="incidents-toolbar"><IncidentFilters
                 selectedStatus={selectedStatus}
                 onStatusChange={setSelectedStatus}
                 selectedSeverity={selectedSeverity}
                 onSeverityChange={setSelectedSeverity}
                 searchTerm={searchTerm}
                 onSearchChange={setSearchTerm}
-            />
+            /></div>
             {filteredIncidents.length === 0 ? (
                 <EmptyState />
             ) : (

@@ -6,10 +6,9 @@ function IncidentFilters({ selectedStatus, onStatusChange,
                           searchTerm, onSearchChange
  }) {
     return (
-        <div>
-      <label htmlFor="status-filter">
-        Status:
-      </label>
+        <div className="filters">
+      <div className="filter-field">
+      <label htmlFor="status-filter">Status</label>
         <select id = "status-filter"
                 value = {selectedStatus}
                 onChange = {(event) => onStatusChange(event.target.value)}>
@@ -18,9 +17,9 @@ function IncidentFilters({ selectedStatus, onStatusChange,
             <option value = "investigating">Investigating</option>
             <option value = "resolved">Resolved</option>
         </select>
-        <label htmlFor="severity-filter">
-  Severity:
-</label>
+      </div>
+      <div className="filter-field">
+        <label htmlFor="severity-filter">Severity</label>
 
     <select
         id="severity-filter"
@@ -35,11 +34,9 @@ function IncidentFilters({ selectedStatus, onStatusChange,
       <option value="medium">Medium</option>
       <option value="low">Low</option>
     </select>
-
-    <label htmlFor="incident-search">
-  Search:
-</label>
-
+      </div>
+      <div className="filter-field filter-field-search">
+    <label htmlFor="incident-search">Search</label>
   <input
     id="incident-search"
     type="text"
@@ -49,6 +46,7 @@ function IncidentFilters({ selectedStatus, onStatusChange,
     }
     placeholder="Search incidents..."
   />
+      </div>
         </div>
     )
 }

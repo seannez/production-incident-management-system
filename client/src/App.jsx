@@ -6,6 +6,9 @@ import { useState } from "react";
 import CreateIncidentPage from "./pages/CreateIncidentPage";
 import { useEffect } from "react";
 import { fetchIncidents, createIncident, } from "./api/incidentsApi";
+import Sidebar from "./components/layout/Sidebar";
+import Header from "./components/layout/Header";
+import "./AppLayout.css";
 
 function App() {
   const [incidents, setIncidents] = useState([]);
@@ -35,30 +38,26 @@ function App() {
   
 
   return (
-    <Routes>
-      <Route
-        path="/"
-        element={<Navigate to="/incidents" replace />}
-      />
-
-      <Route
-        path="/incidents"
-        element={<IncidentsPage  incidents={incidents}/>}
-      />
-
-      <Route
-        path="/incidents/:id"
-        element={<IncidentDetailsPage incidents={incidents} onStatusChange={updateStatus} />}
-      />
-      <Route
-        path="/incidents/new"
-        element={
-          <CreateIncidentPage
-            onCreateIncident={AddIncident}
-          />
-          }
-/>
-    </Routes>
+    <div className="app-root">
+      <Sidebar />
+      <div className="main-area">
+        <Header />
+        <div className="content">
+          <div className="workspace">
+            <Routes>
+              <Route path="/" element={<Navigate to="/incidents" replace />} />
+              <Route path="/incidents" element={<IncidentsPage incidents={incidents} />} />
+              <Route path="/incidents/:id" element={<IncidentDetailsPage incidents={incidents} onStatusChange={updateStatus} />} />
+              <Route path="/incidents/new" element={<CreateIncidentPage onCreateIncident={AddIncident} />} />
+            </Routes>
+          </div>
+          <div className="details-panel panel">
+            {/* visual placeholder for details; actual details page renders on route */}
+            <div style={{opacity:0.7}}>Details</div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 

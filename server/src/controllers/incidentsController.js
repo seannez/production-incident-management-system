@@ -1,5 +1,6 @@
 // Placeholder for incidents controller.
 import pool from "../config/database.js";
+import { findAllIncidents } from "../repositories/incidentsRepository.js";
 const incidents = [
   {
     id: 1,
@@ -43,8 +44,15 @@ const incidents = [
 }
 ];
 
-export function getAllIncidents(req, res){
-    res.status(200).json(incidents);
+export async function getAllIncidents(req, res){
+    try {
+        //go to repository
+        const incidents = await findAllIncidents();
+        return res.status(200).json(incidents);
+    } catch (error) {
+        console.error("Error fetching incidents:", error);
+        return res.status(500).json({ message: "Internal server error" });
+    }
 }
 
 export function getIncidentById(req, res) {

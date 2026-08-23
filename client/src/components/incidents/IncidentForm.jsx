@@ -25,7 +25,7 @@ function IncidentForm({onSubmit}) {
     } 
     return (
     <form onSubmit={handleSubmit}>
-      <div>
+      <div className="form-row">
         <label htmlFor="title">Title:</label>
 
         <input
@@ -38,7 +38,7 @@ function IncidentForm({onSubmit}) {
         />
       </div>
 
-      <div>
+      <div className="form-row">
         <label htmlFor="description">
           Description:
         </label>
@@ -52,7 +52,7 @@ function IncidentForm({onSubmit}) {
         />
       </div>
 
-      <div>
+      <div className="form-row">
         <label htmlFor="severity">
           Severity:
         </label>
@@ -71,7 +71,7 @@ function IncidentForm({onSubmit}) {
         </select>
       </div>
 
-      <div>
+      <div className="form-row">
         <label htmlFor="affected-service">
           Affected Service:
         </label>
@@ -86,9 +86,9 @@ function IncidentForm({onSubmit}) {
         />
       </div>
 
-      <button type="submit">
-        Create Incident
-      </button>
+      <div className="form-actions">
+        <button className="new-incident-btn" type="submit">Create Incident</button>
+      </div>
     </form>
   );
 }

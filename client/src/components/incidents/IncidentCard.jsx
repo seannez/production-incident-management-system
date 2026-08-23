@@ -3,18 +3,24 @@
 import { Link } from "react-router-dom";
 
 function IncidentCard({ incident }) {
-    return(
-        <article>
-
-            <h2>{incident.title}</h2>
-            <p>Severity: {incident.severity}</p>
-            <p>Status: {incident.status}</p>
-            <p>Affected Service: {incident.affectedService}</p>
-            <p>Assigned To: {incident.assignedTo}</p>
-            
-            <Link to={`/incidents/${incident.id}`}>View Details</Link> 
-        </article>
-    )
+    const sevClass = `sev-${incident.severity || 'low'}`;
+    const statusClass = `status-${(incident.status||'open').replace(/\s+/g,'')}`;
+    return (
+        <tr onClick={() => window.location.href = `/incidents/${incident.id}`}>
+            <td>
+                <div className="incident-title">{incident.title}</div>
+                <div className="incident-description">{incident.description}</div>
+            </td>
+            <td>
+                <span className={`badge ${sevClass}`}>{incident.severity}</span>
+            </td>
+            <td>
+                <span className={`badge ${statusClass}`}>{incident.status}</span>
+            </td>
+            <td>{incident.assignedTo}</td>
+            <td>{new Date(incident.createdAt).toLocaleString()}</td>
+        </tr>
+    );
 }
 
 export default IncidentCard;

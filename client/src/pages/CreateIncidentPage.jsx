@@ -13,8 +13,8 @@ function CreateIncidentPage({onCreateIncident}) {
     }
 
     return (
-        <main>
-            <h1>Create New Incident</h1>
+        <main className="panel">
+            <h2 style={{marginTop:0}}>Create New Incident</h2>
             <IncidentForm onSubmit={handleCreateIncident} />
         </main>
     );
