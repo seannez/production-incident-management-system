@@ -1,6 +1,7 @@
 // Placeholder for incidents controller.
 import pool from "../config/database.js";
-import { findAllIncidents } from "../repositories/incidentsRepository.js";
+import { findAllIncidents, findIncidentById , createIncident} from "../repositories/incidentsRepository.js";
+import * as incidentsService from "../services/incidentsService.js";
 const incidents = [
   {
     id: 1,
@@ -55,30 +56,26 @@ export async function getAllIncidents(req, res){
     }
 }
 
-export function getIncidentById(req, res) {
-    //console.log("GET INCIDENT", req.params.id);
-    const id = Number(req.params.id);
-    const incident = incidents.find((incident) => incident.id === id);
+export async function getIncidentById(req, res) {
+    const id = NUMBER(req.params.id)
 
-    if (!incident) {
-        return res.status(404).json({ message: "Incident not found" });
+    try {
+        const incident = await findIncidentById(id);
+        if (!incident) {
+            return res.status(404).json({ message: "Incident not found" });
+        }
+        return res.status(200).json(incident);
+    } catch (error) {
+        console.error("Failed to fetch specific incident:", error);
+        return res.status(500).json({ message: "Internal server error" });
     }
-    res.status(200).json(incident);
 }
 
-export function createIncident(req, res) {
-    const { title, description, severity, affectedService} = req.body;
-    const newIncident = {
-        id: incidents.length + 1,
-        title,
-        description,
-        severity,
-        status: "open",
-        affectedService,
-        assignedTo: "Unassigned",
-        createdAt: new Date().toISOString(),
+export async function createNewIncident(req, res) {
+    try {
+        const newIncident = await createIncident(req.body)
+        return res.status(201).json(newIncident)
+    } catch (error) {
+        
     }
-    //Right now it updates the mock data - will be changed
-    incidents.push(newIncident);
-    res.status(201).json(newIncident);
 }

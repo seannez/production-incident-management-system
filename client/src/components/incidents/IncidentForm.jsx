@@ -24,6 +24,7 @@ function IncidentForm({onSubmit}) {
         onSubmit(newIncident);
     } 
     return (
+      //Actual submittion
     <form onSubmit={handleSubmit}>
       <div className="form-row">
         <label htmlFor="title">Title:</label>

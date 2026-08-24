@@ -25,6 +25,7 @@ function App() {
 
   async function AddIncident(incidentData) {
     const newIncident = await createIncident(incidentData);
+    //After DB returns the inserted row we update the frontend
     setIncidents((prevIncidents) => [newIncident, ...prevIncidents]);
   }
  //When we use the function from useState in paranthesis we get current state value

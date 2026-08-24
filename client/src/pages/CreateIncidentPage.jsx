@@ -13,9 +13,9 @@ function CreateIncidentPage({onCreateIncident}) {
     }
 
     return (
-        <main className="panel">
+        <main className="panel create-incident-page">
             <h2 style={{marginTop:0}}>Create New Incident</h2>
-            <IncidentForm onSubmit={handleCreateIncident} />
+            <IncidentForm onSubmit={handleCreateIncident} /> {/*Prop call*/}
         </main>
     );
 }

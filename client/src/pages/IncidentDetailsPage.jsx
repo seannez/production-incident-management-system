@@ -8,14 +8,14 @@ function IncidentDetailsPage({incidents, onStatusChange}) {
 
     if (!incident) {
         return (
-            <main className="panel">
+            <main className="panel incident-details-page">
                 <h1>Incident Not Found</h1>
                 <Link to="/incidents">Back to Incidents</Link>
             </main>
         );
     }
     return(
-        <main className="panel">
+        <main className="panel incident-details-page">
             <div className="meta">
                 <h2>{incident.title}</h2>
                 <div>ID: {incident.id}</div>

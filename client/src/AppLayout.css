@@ -159,6 +159,16 @@
   padding: 28px 34px 40px;
 }
 .workspace { min-width: 0; }
+.content:has(.incident-details-page),
+.content:has(.incidents-page),
+.content:has(.create-incident-page) {
+  grid-template-columns: minmax(0, 1fr);
+}
+.content:has(.incident-details-page) .details-panel,
+.content:has(.incidents-page) .details-panel,
+.content:has(.create-incident-page) .details-panel {
+  display: none;
+}
 .page-heading, .create-inline-link { display: none; }
 .incidents-page { min-width: 0; }
 .incidents-toolbar { margin-bottom: 24px; }
