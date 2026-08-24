@@ -62,7 +62,25 @@ export async function createIncident(incidentData){
     ]
   );
 
-  return result[0];
+  return result.rows[0];
+}
 
-    
+export async function updateStatus(id, status){
+    const result = await pool.query(`
+        UPDATE incidents SET
+        status = $1
+        WHERE id = $2
+        RETURNING 
+        id,
+        title,
+        description,
+        severity,
+        status,
+        affected_service AS "affectedService",
+        assigned_to AS "assignedTo",
+        created_at AS "createdAt"
+        `,
+        [status , id]
+    );
+    return result.rows[0]
 }

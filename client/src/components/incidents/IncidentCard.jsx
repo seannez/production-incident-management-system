@@ -1,12 +1,16 @@
 //Incident card component.
 //Links to incidentDetailsPage
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function IncidentCard({ incident }) {
     const sevClass = `sev-${incident.severity || 'low'}`;
     const statusClass = `status-${(incident.status||'open').replace(/\s+/g,'')}`;
+
+    const navigate = useNavigate()
+
     return (
-        <tr onClick={() => window.location.href = `/incidents/${incident.id}`}>
+        <tr onClick={() => navigate(`/incidents/${incident.id}`)}>
             <td>
                 <div className="incident-title">{incident.title}</div>
                 <div className="incident-description">{incident.description}</div>

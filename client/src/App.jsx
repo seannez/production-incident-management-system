@@ -5,7 +5,8 @@ import IncidentDetailsPage from "./pages/IncidentDetailsPage";
 import { useState } from "react";
 import CreateIncidentPage from "./pages/CreateIncidentPage";
 import { useEffect } from "react";
-import { fetchIncidents, createIncident, } from "./api/incidentsApi";
+import { fetchIncidents, createIncident, 
+  upDateIncidentStatus as updateIncidentStatusApi} from "./api/incidentsApi";
 import Sidebar from "./components/layout/Sidebar";
 import Header from "./components/layout/Header";
 import "./AppLayout.css";
@@ -29,10 +30,19 @@ function App() {
     setIncidents((prevIncidents) => [newIncident, ...prevIncidents]);
   }
  //When we use the function from useState in paranthesis we get current state value
-  function updateStatus(incidentId, newStatus) {
+  /*function updateStatus(incidentId, newStatus) {
     setIncidents((prevIncidents) =>
       prevIncidents.map((incident) =>
         incident.id === incidentId ? { ...incident, status: newStatus } : incident
+      )
+    );
+  }*/
+
+  async function updateIncidentStatus(id, newStatus){
+    const updatedIncident = await updateIncidentStatusApi(id, newStatus);
+    setIncidents((prevIncidents) =>
+      prevIncidents.map((incident) =>
+        incident.id === id ? updatedIncident : incident
       )
     );
   }
@@ -48,7 +58,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Navigate to="/incidents" replace />} />
               <Route path="/incidents" element={<IncidentsPage incidents={incidents} />} />
-              <Route path="/incidents/:id" element={<IncidentDetailsPage incidents={incidents} onStatusChange={updateStatus} />} />
+              <Route path="/incidents/:id" element={<IncidentDetailsPage incidents={incidents} onStatusChange={updateIncidentStatus} />} />
               <Route path="/incidents/new" element={<CreateIncidentPage onCreateIncident={AddIncident} />} />
             </Routes>
           </div>

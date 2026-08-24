@@ -1,54 +1,8 @@
-// Placeholder for incidents controller.
-import pool from "../config/database.js";
-import { findAllIncidents, findIncidentById , createIncident} from "../repositories/incidentsRepository.js";
 import * as incidentsService from "../services/incidentsService.js";
-const incidents = [
-  {
-    id: 1,
-    title: "Payment API unavailable",
-    description: "Payment requests are returning HTTP 500 errors.",
-    severity: "critical",
-    status: "open",
-    affectedService: "Payments API",
-    assignedTo: "Shon",
-    createdAt: "2026-08-10T17:30:00",
-  },
-  {
-    id: 2,
-    title: "Slow database queries",
-    description: "Several queries are taking more than 5 seconds.",
-    severity: "high",
-    status: "investigating",
-    affectedService: "PostgreSQL",
-    assignedTo: "Daniel",
-    createdAt: "2026-08-10T16:15:00",
-  },
-  {
-    id: 3,
-    title: "Authentication timeout",
-    description: "Some users are experiencing login timeouts.",
-    severity: "medium",
-    status: "resolved",
-    affectedService: "Authentication Service",
-    assignedTo: "Noa",
-    createdAt: "2026-08-10T13:45:00",
-  },
-  {
-  id: 4,
-  title: "Email notifications delayed",
-  description: "Incident alert emails are being delivered several minutes late.",
-  severity: "low",
-  status: "open",
-  affectedService: "Notification Service",
-  assignedTo: "Unassigned",
-  createdAt: "2026-08-23T12:00:00",
-}
-];
 
 export async function getAllIncidents(req, res){
     try {
-        //go to repository
-        const incidents = await findAllIncidents();
+        const incidents = await incidentsService.getAllIncidents();
         return res.status(200).json(incidents);
     } catch (error) {
         console.error("Error fetching incidents:", error);
@@ -57,10 +11,10 @@ export async function getAllIncidents(req, res){
 }
 
 export async function getIncidentById(req, res) {
-    const id = NUMBER(req.params.id)
+    const id = Number(req.params.id);
 
     try {
-        const incident = await findIncidentById(id);
+        const incident = await incidentsService.getIncidentById(id);
         if (!incident) {
             return res.status(404).json({ message: "Incident not found" });
         }
@@ -73,9 +27,30 @@ export async function getIncidentById(req, res) {
 
 export async function createNewIncident(req, res) {
     try {
-        const newIncident = await createIncident(req.body)
-        return res.status(201).json(newIncident)
+        const newIncident = await incidentsService.makeIncident(req.body);
+        return res.status(201).json(newIncident);
     } catch (error) {
-        
+        console.error("Failed to create incident:", error);
+        return res.status(500).json({ message: "Failed to create incident" });
+    }
+}
+
+export async function upDateIncidentStatus(req, res){
+    try {
+        const id = Number(req.params.id);
+        const { status } = req.body;
+        const updatedIncident = await incidentsService.changeStatus(id, status);
+
+        if (!updatedIncident) {
+            return res.status(404).json({
+                message: "Incident not found",
+            });
+        }
+
+        return res.status(200).json(updatedIncident);
+    } catch (error) {
+        console.error("Failed to update incident: ", error);
+
+        return res.status(500).json({message: "failed to update incident"});
     }
 }

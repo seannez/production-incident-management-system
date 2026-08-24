@@ -23,3 +23,22 @@ export async function createIncident(incidentData) {
     }
     return response.json();
 }
+
+export async function upDateIncidentStatus(id, status){
+    const response = await fetch (
+        `http://localhost:3001/api/incidents/${id}/status`,
+        {
+           method: "PATCH", 
+           headers :{ 
+                "Content-Type": "application/json"
+           },
+           body: JSON.stringify({status})
+        }
+    )
+
+    if(!response.ok){
+        throw new Error("Failed to update incident status")
+    }
+
+    return response.json()
+}
