@@ -1,5 +1,6 @@
 // Placeholder for Express app setup.
 import incidentsRoutes from "./routes/incidentsRoutes.js";
+import incidentUpdatesRoutes from "./routes/incidentUpdatesRoutes.js";
 
 import express from "express";
 import cors from "cors";
@@ -16,5 +17,6 @@ app.get("/api/health", (req, res) => {
 });
 
 app.use("/api/incidents", incidentsRoutes);
+app.use("/api/incidents", incidentUpdatesRoutes)
 
 export default app;

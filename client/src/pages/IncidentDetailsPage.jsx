@@ -1,10 +1,30 @@
 // Placeholder for incident details page.
 import { Link, useParams } from "react-router-dom";
-
+import {
+  fetchIncidentsUpdates,
+  createIncidentUpdate,
+} from "../api/incidentsApi";
+import { useState } from "react";
+import { useEffect } from "react";
+import IncdentUpdateForm from "../components/incidents/IncidentUpdateForm";
 
 function IncidentDetailsPage({incidents, onStatusChange}) {
+  const [updates, setUpdates] = useState([])
     const id = useParams().id;
     const incident = incidents.find((incident) => incident.id === Number(id));
+    const incidentId = incident?.id;
+
+    useEffect(()=>{
+      if (!incidentId) {
+        return;
+      }
+
+      async function loadUpdates(){
+        const data = await fetchIncidentsUpdates(incidentId)
+        setUpdates(data)
+      }
+      loadUpdates()
+    },[incidentId])
 
     if (!incident) {
         return (
@@ -14,6 +34,13 @@ function IncidentDetailsPage({incidents, onStatusChange}) {
             </main>
         );
     }
+
+    async function handleCreateUpdate(updateData){
+      const newUpdate = await createIncidentUpdate(incident.id, updateData)
+
+      setUpdates((prevUpdates)=>[...prevUpdates, newUpdate])
+
+    }
     return(
         <main className="panel incident-details-page">
             <div className="meta">
@@ -21,14 +48,14 @@ function IncidentDetailsPage({incidents, onStatusChange}) {
                 <div>ID: {incident.id}</div>
             </div>
 
-            <div style={{display:'flex',gap:12,alignItems:'center'}}>
-                <div>
-                    <div style={{fontSize:13,color:'#6b7280'}}>Severity</div>
+            <div className="incident-controls">
+                <div className="incident-control">
+                    <div className="incident-control-label">Severity</div>
                     <div className={`badge sev-${incident.severity}`}>{incident.severity}</div>
                 </div>
 
-                <div>
-                    <div style={{fontSize:13,color:'#6b7280'}}>Status</div>
+                <div className="incident-control incident-status-control">
+                    <label className="incident-control-label" htmlFor="incident-status">Status</label>
                     <select
                       id="incident-status"
                       value={incident.status}
@@ -48,9 +75,38 @@ function IncidentDetailsPage({incidents, onStatusChange}) {
                 <h3>Description</h3>
                 <p>{incident.description}</p>
             </div>
+            <section className="incident-updates-section">
+              <div className="incident-updates-heading">
+                <div>
+                  <h3>Incident Updates</h3>
+                  <p>Record progress and important changes.</p>
+                </div>
+              </div>
 
-            <div style={{marginTop:12}}>
-                <Link to="/incidents">Back to Incidents</Link>
+              <IncdentUpdateForm onCreateUpdate={handleCreateUpdate} />
+
+              <div className="incident-updates-list">
+                {updates.length === 0 ? (
+                  <p className="incident-updates-empty">No updates yet.</p>
+                ) : (
+                  updates.map((update) => (
+                    <article className="incident-update" key={update.id}>
+                      <div className="incident-update-marker" />
+                      <div>
+                        <p className="incident-update-message">{update.message}</p>
+                        <div className="incident-update-meta">
+                          <span>{update.createdBy}</span>
+                          <span>{new Date(update.createdAt).toLocaleString()}</span>
+                        </div>
+                      </div>
+                    </article>
+                  ))
+                )}
+              </div>
+            </section>
+
+            <div className="incident-details-footer">
+              <Link to="/incidents">← Back to Incidents</Link>
             </div>
         </main>
     )

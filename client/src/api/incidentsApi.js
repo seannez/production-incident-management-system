@@ -42,3 +42,30 @@ export async function upDateIncidentStatus(id, status){
 
     return response.json()
 }
+
+export async function fetchIncidentsUpdates(incidentId){
+    const response = await fetch(`http://localhost:3001/api/incidents/${incidentId}/updates`)
+
+    if(!response.ok){
+        throw new Error("Failed to fetch incident updates")
+    }
+
+    return response.json()
+}
+
+export async function createIncidentUpdate(incidentId, updateData){
+    const response = await fetch(
+        `http://localhost:3001/api/incidents/${incidentId}/updates`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updateData),
+    }); //End of fetch
+
+    if(!response.ok){
+        throw new Error("Failed to create update")
+    }
+    
+    return response.json()
+}
