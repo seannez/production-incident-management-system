@@ -7,6 +7,7 @@ import CreateIncidentPage from "./pages/CreateIncidentPage";
 import { useEffect } from "react";
 import { fetchIncidents, createIncident, 
   upDateIncidentStatus as updateIncidentStatusApi} from "./api/incidentsApi";
+import DashboardPage from "./pages/DashboardPage";
 import Sidebar from "./components/layout/Sidebar";
 import Header from "./components/layout/Header";
 import "./AppLayout.css";
@@ -60,6 +61,7 @@ function App() {
               <Route path="/incidents" element={<IncidentsPage incidents={incidents} />} />
               <Route path="/incidents/:id" element={<IncidentDetailsPage incidents={incidents} onStatusChange={updateIncidentStatus} />} />
               <Route path="/incidents/new" element={<CreateIncidentPage onCreateIncident={AddIncident} />} />
+              <Route path="/dashboard" element={<DashboardPage />} />
             </Routes>
           </div>
           <div className="details-panel panel">

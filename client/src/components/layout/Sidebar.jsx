@@ -13,7 +13,7 @@ function Sidebar() {
 
 			<nav>
 				<NavLink to="/incidents" className={({isActive})=> isActive? 'active':''}>Incidents</NavLink>
-				<a href="#">Dashboard</a>
+				<NavLink to="/dashboard" className={({isActive})=> isActive? 'active':''}>Dashboard</NavLink>
 				<a href="#">Updates</a>
 				<a href="#">Teams</a>
 				<a href="#">Settings</a>
