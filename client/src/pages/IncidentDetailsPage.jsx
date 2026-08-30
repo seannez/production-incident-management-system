@@ -14,25 +14,26 @@ function IncidentDetailsPage({incidents, onStatusChange}) {
     const incident = incidents.find((incident) => incident.id === Number(id));
     const incidentId = incident?.id;
 
-    useEffect(()=>{
+    //API Call
+    async function loadUpdates(targetIncidentId) {
+      const data = await fetchIncidentsUpdates(targetIncidentId);
+      setUpdates(data);
+    }
+
+    useEffect(() => {
       if (!incidentId) {
         return;
       }
 
-      async function loadUpdates(){
-        const data = await fetchIncidentsUpdates(incidentId)
-        setUpdates(data)
-      }
-      loadUpdates()
-    },[incidentId])
+      loadUpdates(incidentId);
+    }, [incidentId]);
 
     if (!incident) {
-        return (
-            <main className="panel incident-details-page">
-                <h1>Incident Not Found</h1>
-                <Link to="/incidents">Back to Incidents</Link>
-            </main>
-        );
+      return (
+        <main className="panel incident-details-page">
+          <p>Loading incident...</p>
+        </main>
+      );
     }
 
     async function handleCreateUpdate(updateData){
@@ -40,6 +41,12 @@ function IncidentDetailsPage({incidents, onStatusChange}) {
 
       setUpdates((prevUpdates)=>[...prevUpdates, newUpdate])
 
+    }
+
+    async function handleStatusChange(newStatus) {
+      await onStatusChange(incident.id, newStatus);
+
+      await loadUpdates(incident.id);
     }
     return(
         <main className="panel incident-details-page">
@@ -59,7 +66,7 @@ function IncidentDetailsPage({incidents, onStatusChange}) {
                     <select
                       id="incident-status"
                       value={incident.status}
-                      onChange={(event) => onStatusChange(incident.id, event.target.value)}
+                      onChange={(event) => handleStatusChange(event.target.value)}
                     >
                       <option value="open">Open</option>
                       <option value="investigating">Investigating</option>

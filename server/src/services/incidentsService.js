@@ -2,6 +2,7 @@
 import { findAllIncidents, findIncidentById , createIncident, 
     updateStatus
 } from "../repositories/incidentsRepository.js";
+import { createIncidentUpdate } from "./incidentUpdatesService.js";
 
 export async function getAllIncidents() {
     return await findAllIncidents();
@@ -16,5 +17,19 @@ export async function makeIncident(incidentData){
 }
 
 export async function changeStatus(id, status){
-    return await updateStatus(id, status)
+    const incident = await findIncidentById(id)
+
+    if(!incident){
+        return null
+    }
+
+    const oldStatus = incident.status;
+    const updatedIncident = await updateStatus(id, status);
+
+    if(oldStatus !== status){
+        await createIncidentUpdate(id, {message: `changes status from ${oldStatus} to ${status}`, 
+        createdBy: "System"})
+    }
+    return updatedIncident;
+
 }
