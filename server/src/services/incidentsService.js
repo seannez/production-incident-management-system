@@ -27,8 +27,9 @@ export async function changeStatus(id, status){
     const updatedIncident = await updateStatus(id, status);
 
     if(oldStatus !== status){
+        //The message that will be displayed in the bottom of the incident
         await createIncidentUpdate(id, {message: `changes status from ${oldStatus} to ${status}`, 
-        createdBy: "System"})
+        createdBy: "System", updateType: "status_change",})
     }
     return updatedIncident;
 

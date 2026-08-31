@@ -16,14 +16,19 @@ export async function findUpdatesByIncidentId(incidentId){
 }
 
 export async function createIncidentUpdate(incidentId, updateData){
-    const {message, createdBy} = updateData
+     const {
+        message,
+        createdBy,
+        updateType = "manual",
+    } = updateData;
 
     const result = await pool.query(
     `
         INSERT INTO incident_updates (
         incident_id,
         message,
-        created_by
+        created_by,
+        updateType
     )
     VALUES ($1, $2, $3)
     RETURNING
@@ -33,8 +38,28 @@ export async function createIncidentUpdate(incidentId, updateData){
       created_by AS "createdBy",
       created_at AS "createdAt"
     `,
-    [incidentId, message, createdBy]
+    [incidentId, message, createdBy, updateType]
 );
     
     return result.rows[0];
+}
+
+export async function findAllUpdates(){
+    const result = await pool.query(`
+        SELECT 
+        iu.id,
+        iu.incident_id AS "incidentId",
+        i.title AS "incidentTitle",
+        i.severity,
+        iu.message,
+        iu.created_by AS "createdBy",
+        iu.update_type AS "updateType",
+        iu.created_at AS "createdAt"
+        FROM incidents i 
+        JOIN incident_updates iu
+        ON iu.incident_id = i.id
+        ORDER BY iu.created_at DESC
+        `)
+
+        return result.rows;
 }

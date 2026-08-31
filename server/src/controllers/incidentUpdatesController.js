@@ -52,3 +52,16 @@ import * as incidentUpdatesService
     }
     
   }
+
+  export async function getAllUpdates(req, res){
+    try {
+
+        const updates = await incidentUpdatesService.getAllUpdates()
+        return res.status(201).json(updates)
+
+    } catch (error) {
+        console.log("Failed to get all updates:", error)
+
+        res.status(500).json({message: "Failed to fetch all updates"})
+    }
+  }
