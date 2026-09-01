@@ -11,6 +11,7 @@ import DashboardPage from "./pages/DashboardPage";
 import Sidebar from "./components/layout/Sidebar";
 import Header from "./components/layout/Header";
 import "./AppLayout.css";
+import UpdatesPage from "./pages/UpdatesPage";
 
 function App() {
   const [incidents, setIncidents] = useState([]);
@@ -62,6 +63,7 @@ function App() {
               <Route path="/incidents/:id" element={<IncidentDetailsPage incidents={incidents} onStatusChange={updateIncidentStatus} />} />
               <Route path="/incidents/new" element={<CreateIncidentPage onCreateIncident={AddIncident} />} />
               <Route path="/dashboard" element={<DashboardPage />} />
+              <Route path="/updates" element={<UpdatesPage />} />
             </Routes>
           </div>
           <div className="details-panel panel">

@@ -162,13 +162,15 @@
 .content:has(.incident-details-page),
 .content:has(.incidents-page),
 .content:has(.create-incident-page),
-.content:has(.dashboard-page) {
+.content:has(.dashboard-page),
+.content:has(.updates-page) {
   grid-template-columns: minmax(0, 1fr);
 }
 .content:has(.incident-details-page) .details-panel,
 .content:has(.incidents-page) .details-panel,
 .content:has(.create-incident-page) .details-panel,
-.content:has(.dashboard-page) .details-panel {
+.content:has(.dashboard-page) .details-panel,
+.content:has(.updates-page) .details-panel {
   display: none;
 }
 .page-heading, .create-inline-link { display: none; }
@@ -591,6 +593,110 @@
   line-height: 1;
 }
 
+.updates-page { width: 100%; }
+
+.updates-page-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 22px;
+}
+.updates-page-heading h1 { margin: 0 0 5px; color: #111827; font-size: 29px; letter-spacing: -0.55px; }
+.updates-page-heading p { margin: 0; color: var(--muted); font-size: 14px; }
+.updates-count {
+  padding: 7px 11px;
+  color: #5147cf;
+  background: #eeecff;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.updates-toolbar {
+  display: grid;
+  grid-template-columns: minmax(240px, 1fr) minmax(190px, 0.35fr);
+  gap: 14px;
+  margin-bottom: 22px;
+}
+.updates-search-field, .updates-type-field {
+  min-height: 58px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 7px 13px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+}
+.updates-search-field { position: relative; }
+.updates-search-field::after {
+  content: "⌕";
+  position: absolute;
+  right: 15px;
+  color: #65738b;
+  font-size: 20px;
+}
+.updates-search-field input, .updates-type-field select {
+  width: 100%;
+  color: #263247;
+  background: transparent;
+  border: 0;
+  outline: none;
+  font-size: 14px;
+}
+.updates-search-field input { padding: 4px 28px 4px 0; }
+.updates-type-field label { color: #5f6c82; font-size: 11px; line-height: 1.1; }
+.updates-type-field select { padding: 3px 20px 0 0; }
+
+.updates-feed { overflow: hidden; }
+.updates-feed-heading { padding: 20px 24px; border-bottom: 1px solid var(--border); }
+.updates-feed-heading h2 { margin: 0 0 4px; color: #172033; font-size: 18px; }
+.updates-feed-heading p { margin: 0; color: var(--muted); font-size: 12px; }
+.updates-feed-list { padding: 0 24px; }
+.updates-feed-item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr);
+  gap: 12px;
+  padding: 22px 0;
+}
+.updates-feed-item:not(:last-child) { border-bottom: 1px solid var(--border); }
+.updates-feed-marker {
+  width: 10px;
+  height: 10px;
+  margin-top: 6px;
+  background: var(--accent);
+  border: 2px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px #e1e4ff;
+}
+.updates-feed-content { min-width: 0; }
+.updates-feed-topline {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+}
+.updates-feed-incident { display: flex; align-items: center; flex-wrap: wrap; gap: 9px; }
+.updates-feed-incident a { color: #202b40; font-size: 14px; font-weight: 700; text-decoration: none; }
+.updates-feed-incident a:hover { color: var(--accent); }
+.updates-feed-topline time { color: #7b8799; font-size: 11px; white-space: nowrap; }
+.updates-feed-message { margin: 10px 0 9px; color: #3f4c62; font-size: 14px; line-height: 1.55; }
+.updates-feed-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+.updates-author { color: #6b778b; font-size: 11px; font-weight: 600; }
+.updates-type {
+  padding: 4px 7px;
+  color: #5e6a7e;
+  background: #f0f2f6;
+  border-radius: 5px;
+  font-size: 10px;
+  font-weight: 650;
+}
+.updates-type-status_change { color: #1e4ca1; background: #dceaff; }
+.updates-empty { padding: 48px 24px; color: var(--muted); text-align: center; }
+
 @media (max-width: 1050px) {
   .dashboard-summary-grid,
   .severity-summary-grid {
@@ -621,6 +727,8 @@
   .filter-field-search { grid-column: auto; grid-row: auto; }
   .incidents-list-panel { overflow-x: auto; }
   .incidents-table { min-width: 720px; }
+  .updates-toolbar { grid-template-columns: 1fr; }
+  .updates-feed-topline { align-items: flex-start; flex-direction: column; gap: 8px; }
 }
 
 @media (max-width: 480px) {
