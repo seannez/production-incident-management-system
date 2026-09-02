@@ -15,26 +15,26 @@ export async function registerUser(name, email, password, teamId){
     const numericTeamId = Number(teamId);
 
     if(!cleanName || !cleanEmail || numericTeamId){
-      throw new Error("Invalid register data")
+      throw new Error("INVALID_REGISTRATION_DATA")
     }
 
     if(password.length < 8){
-      throw new Error("password too short")
+      throw new Error("PASSWORD_TOO_SHORT")
     }
 
     const existingUser = await findUserByEmail(email)
 
     if(existingUser){
-      throw new Error("user with that email already exists")
+      throw new Error("EMAIL_ALREADY_EXISTS")
     }
 
     const isValidTeam = findTeamById(teamId)
 
     if(!isValidTeam){
-      throw new Error("invalid team")
+      throw new Error("INVALID_TEAM")
     }
 
     const passwordHash = await bcrypt.hash(password, 12)
 
-    return createUser({cleanName, cleanEmail, passwordHash, passwordHash})
+     return createUser({name: cleanName, email: cleanEmail, passwordHash, teamId: numericTeamId,});
 }
