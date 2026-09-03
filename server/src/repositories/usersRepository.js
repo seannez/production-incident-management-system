@@ -11,7 +11,7 @@ export async function findUserByEmail(email){
         , [email]
     )
 
-    return result[0]
+    return result.rows[0]
 }
 
 export async function createUser({

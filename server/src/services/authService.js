@@ -9,12 +9,12 @@ import {
   findTeamById,
 } from "../repositories/teamsRepository.js";
 
-export async function registerUser(name, email, password, teamId){
+export async function registerUser({name, email, password, teamId}){
     const cleanName = name?.trim()
-    const cleanEmail = email?.trim().toLoweCase()
+    const cleanEmail = email?.trim().toLowerCase()
     const numericTeamId = Number(teamId);
 
-    if(!cleanName || !cleanEmail || numericTeamId){
+    if(!cleanName || !cleanEmail || !numericTeamId){
       throw new Error("INVALID_REGISTRATION_DATA")
     }
 
@@ -37,4 +37,34 @@ export async function registerUser(name, email, password, teamId){
     const passwordHash = await bcrypt.hash(password, 12)
 
      return createUser({name: cleanName, email: cleanEmail, passwordHash, teamId: numericTeamId,});
+}
+
+export async function loginUser({email, password}){
+  const cleanEmail = email?.trim().toLowerCase()
+
+  if(!cleanEmail || !password){
+    throw new Error("INVALID-LOGIN-DATA")
+  }
+
+  const user = await findUserByEmail(email)
+
+  if(!user){
+    throw new Error("")
+  }
+
+  const passwordMatches = await bcrypt.compare(
+    password,
+    user.passwordHash
+  );
+
+  if (!passwordMatches) {
+    throw new Error("INVALID_CREDENTIALS");
+  }
+
+  return {
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    teamId: user.teamId,
+  };
 }
