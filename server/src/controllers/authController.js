@@ -1,7 +1,9 @@
 import {
   registerUser,
   loginUser,
+  getCurrentUser
 } from "../services/authService.js";
+import { findUserById } from "../repositories/usersRepository.js";
 
 export async function register(req, res) {
   try {
@@ -68,6 +70,20 @@ export async function login(req, res) {
 
     return res.status(500).json({
       message: "Failed to login",
+    });
+  }
+}
+
+export async function me(req, res) {
+  try {
+    const user = await getCurrentUser(req.session.userId);
+
+    return res.status(200).json(user);
+  } catch (error) {
+    console.error("Failed to fetch current user:", error);
+
+    return res.status(500).json({
+      message: "Failed to fetch current user",
     });
   }
 }

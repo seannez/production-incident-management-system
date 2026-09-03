@@ -2,6 +2,7 @@ import bcrypt from "bcrypt";
 
 import {
   findUserByEmail,
+  findUserById,
   createUser,
 } from "../repositories/usersRepository.js";
 
@@ -67,4 +68,14 @@ export async function loginUser({email, password}){
     email: user.email,
     teamId: user.teamId,
   };
+}
+
+export async function getCurrentUser(userId) {
+  const user = await findUserById(userId);
+
+  if (!user) {
+    throw new Error("USER_NOT_FOUND");
+  }
+
+  return user;
 }
