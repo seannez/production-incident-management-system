@@ -7,6 +7,7 @@ import authRoutes from "./routes/authRoutes.js";
 import session from "express-session";
 import connectPgSimple from "connect-pg-simple";
 import pool from "./config/database.js";
+import requireAuth from "./middleware/requireAuth.js";
 
 import express from "express";
 import cors from "cors";
@@ -14,7 +15,13 @@ import cors from "cors";
 const app = express();
 const PgSession = connectPgSimple(session);
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
+
 app.use(express.json());
 
 app.use(
@@ -45,10 +52,10 @@ app.get("/api/health", (req, res) => {
   });
 });
 
-app.use("/api/incidents", incidentsRoutes);
-app.use("/api/incidents", incidentUpdatesRoutes);
-app.use("/api/dashboard", dashboardRoutes);
-app.use("/api/updates", updatesRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/incidents", requireAuth, incidentsRoutes);
+app.use("/api/dashboard", requireAuth, dashboardRoutes);
+app.use("/api/updates", requireAuth, updatesRoutes);
 app.use("/api/auth", authRoutes);
 
 export default app;

@@ -6,5 +6,7 @@ export default function requireAuth(req, res, next) {
     });
   }
 
+  //Defined in auth.routes: go to me in authcontroller
   next();
 }
+

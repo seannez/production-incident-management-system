@@ -87,3 +87,22 @@ export async function me(req, res) {
     });
   }
 }
+
+export async function logout(req, res) {
+    //deletes from db
+  req.session.destroy((error) => {
+    if (error) {
+      console.error("Logout failed:", error);
+
+      return res.status(500).json({
+        message: "Failed to logout",
+      });
+    }
+    //Deletes cookie wich stores the session id
+    res.clearCookie("connect.sid");
+
+    return res.status(200).json({
+      message: "Logged out successfully",
+    });
+  });
+}

@@ -28,14 +28,15 @@ export async function createIncidentUpdate(incidentId, updateData){
         incident_id,
         message,
         created_by,
-        updateType
+        update_type
     )
-    VALUES ($1, $2, $3)
+    VALUES ($1, $2, $3, $4)
     RETURNING
       id,
       incident_id AS "incidentId",
       message,
       created_by AS "createdBy",
+      update_type AS "updateType",
       created_at AS "createdAt"
     `,
     [incidentId, message, createdBy, updateType]
