@@ -54,3 +54,28 @@ export async function logoutUser() {
 
   return response.json();
 }
+
+export async function registerUser({name, email, password, teamId}){
+  const response = await fetch(`${API_URL}/register`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+    body: JSON.stringify({
+      name,
+      email,
+      password,
+      teamId,
+    }),
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || "Registration failed");
+  }
+
+  return data;
+  
+}

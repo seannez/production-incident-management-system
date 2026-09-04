@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate, useNavigate ,Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -58,6 +59,12 @@ export default function LoginPage() {
         <button type="submit">
           Login
         </button>
+          <p>
+          Don't have an account?{" "}
+          <Link to="/register">
+              Register
+          </Link>
+          </p>
       </form>
     </div>
   );

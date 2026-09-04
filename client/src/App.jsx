@@ -14,6 +14,7 @@ import "./AppLayout.css";
 import UpdatesPage from "./pages/UpdatesPage";
 import ProtectedRoute from "./components/auth/ProtectedRoute"
 import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
 
 function App() {
   const [incidents, setIncidents] = useState([]);
@@ -87,6 +88,7 @@ function App() {
                         }
               />
               <Route path="/login" element={<LoginPage />} />
+              <Route path="/register" element={<RegisterPage />} />
             </Routes>
           </div>
           <div className="details-panel panel">

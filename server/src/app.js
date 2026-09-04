@@ -8,6 +8,7 @@ import session from "express-session";
 import connectPgSimple from "connect-pg-simple";
 import pool from "./config/database.js";
 import requireAuth from "./middleware/requireAuth.js";
+import teamsRoutes from "./routes/teamsRoutes.js";
 
 import express from "express";
 import cors from "cors";
@@ -57,5 +58,6 @@ app.use("/api/incidents", requireAuth, incidentsRoutes);
 app.use("/api/dashboard", requireAuth, dashboardRoutes);
 app.use("/api/updates", requireAuth, updatesRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/teams", teamsRoutes);
 
 export default app;

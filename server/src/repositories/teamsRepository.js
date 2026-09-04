@@ -12,3 +12,12 @@ export async function findTeamById(id) {
 
   return result.rows[0];
 }
+
+export async function findAllTeams(){
+  const result = await pool.query(`
+    SELECT id, name FROM teams
+    ORDER BY name
+    `)
+
+    return result.rows;
+}
