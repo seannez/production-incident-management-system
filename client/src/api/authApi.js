@@ -41,3 +41,16 @@ export async function loginUser(email, password) {
 
   return data;
 }
+
+export async function logoutUser() {
+  const response = await fetch(`${API_URL}/logout`, {
+    method: "POST",
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    throw new Error("Logout failed");
+  }
+
+  return response.json();
+}

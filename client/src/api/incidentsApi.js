@@ -1,7 +1,12 @@
 // Placeholder for incident API calls.
 
 export async function fetchIncidents() {
-    const response = await fetch("http://localhost:3001/api/incidents");
+    const response = await fetch(
+    "http://localhost:3001/api/incidents",
+    {
+      credentials: "include",
+    }
+  );
     if (!response.ok) {
         throw new Error("Failed to fetch incidents");
     }

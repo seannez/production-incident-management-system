@@ -1,8 +1,10 @@
 //API calls for dashboard.
 
 export async function fetchDashboardSummary() {
-  const response = await fetch(
-    "http://localhost:3001/api/dashboard/summary"
+  const response = await fetch("http://localhost:3001/api/dashboard/summary",
+    {
+      credentials: "include",
+    }
   );
 
   if (!response.ok) {

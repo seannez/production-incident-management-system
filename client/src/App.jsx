@@ -12,6 +12,8 @@ import Sidebar from "./components/layout/Sidebar";
 import Header from "./components/layout/Header";
 import "./AppLayout.css";
 import UpdatesPage from "./pages/UpdatesPage";
+import ProtectedRoute from "./components/auth/ProtectedRoute"
+import LoginPage from "./pages/LoginPage";
 
 function App() {
   const [incidents, setIncidents] = useState([]);
@@ -59,11 +61,32 @@ function App() {
           <div className="workspace">
             <Routes>
               <Route path="/" element={<Navigate to="/incidents" replace />} />
-              <Route path="/incidents" element={<IncidentsPage incidents={incidents} />} />
+              <Route path="/incidents"
+                element={
+                  <ProtectedRoute>
+                    {/*Child of protectedRoute:  */}
+                   <IncidentsPage incidents={incidents} />
+                  {/*End of children*/}
+                  </ProtectedRoute>
+                        }
+              />
               <Route path="/incidents/:id" element={<IncidentDetailsPage incidents={incidents} onStatusChange={updateIncidentStatus} />} />
               <Route path="/incidents/new" element={<CreateIncidentPage onCreateIncident={AddIncident} />} />
-              <Route path="/dashboard" element={<DashboardPage />} />
-              <Route path="/updates" element={<UpdatesPage />} />
+              <Route path="/dashboard"
+                element={
+                  <ProtectedRoute>
+                  <DashboardPage />
+                  </ProtectedRoute>
+                        }
+              />
+              <Route path="/updates"
+                element={
+                  <ProtectedRoute>
+                  <UpdatesPage />
+                  </ProtectedRoute>
+                        }
+              />
+              <Route path="/login" element={<LoginPage />} />
             </Routes>
           </div>
           <div className="details-panel panel">
