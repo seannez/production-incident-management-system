@@ -35,11 +35,14 @@ export async function createNewIncident(req, res) {
     }
 }
 
+//Calls changeStatus from incidentsService
 export async function upDateIncidentStatus(req, res){
     try {
         const id = Number(req.params.id);
         const { status } = req.body;
-        const updatedIncident = await incidentsService.changeStatus(id, status);
+        const updatedIncident = await incidentsService.changeStatus(id, status,
+            req.session.userId
+        );
 
         if (!updatedIncident) {
             return res.status(404).json({

@@ -12,7 +12,7 @@ export default function IncdentUpdateForm({onCreateUpdate}){
             return;
         }
 
-        await onCreateUpdate({message, createdBy: "Shon"})
+        await onCreateUpdate({message,})
         setMessage("")
     }
 

@@ -1,19 +1,19 @@
 //Incidents page, flow starts from here
 //This page => IncedentList component => IncidentCard component => finally the data
 import IncidentFilters from "../components/incidents/IncidentFilters";
-import { useState } from "react";
+import { useState} from "react";
 import IncidentList from "../components/incidents/IncidentList";
 import { mockIncidents } from "../data/mockIncidents";
 import EmptyState from "../components/common/EmptyState";
 import { Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import {useNavigate} from "react-router-dom";
 
 function IncidentsPage( {incidents}) {
     const [selectedStatus, setSelectedStatus] = useState("all");
     const [selectedSeverity, setSelectedSeverity] = useState("all");
     const [searchTerm, setSearchTerm] = useState(""); //Filters by title of the incident
 
-
-    
     //Filter then use in component
     const filteredIncidents =
        incidents.filter((incident) => {

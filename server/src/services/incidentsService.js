@@ -15,8 +15,8 @@ export async function getIncidentById(id) {
 export async function makeIncident(incidentData){
     return await createIncident(incidentData)
 }
-
-export async function changeStatus(id, status){
+//All status changes go through here!
+export async function changeStatus(id, status, userId){
     const incident = await findIncidentById(id)
 
     if(!incident){
@@ -28,8 +28,15 @@ export async function changeStatus(id, status){
 
     if(oldStatus !== status){
         //The message that will be displayed in the bottom of the incident
-        await createIncidentUpdate(id, {message: `changes status from ${oldStatus} to ${status}`, 
-        createdBy: "System", updateType: "status_change",})
+        //Calls createIncidentUpdate from incidentUpdateService
+        await createIncidentUpdate(
+            id,
+            {
+                message: `changes status from ${oldStatus} to ${status}`,
+                updateType: "status_change",
+            },
+            userId
+        )
     }
     return updatedIncident;
 

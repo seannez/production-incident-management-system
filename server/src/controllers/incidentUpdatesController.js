@@ -26,12 +26,12 @@ import * as incidentUpdatesService
     }
   }
 
+  //Calls createIncidentUpdate from incidentUpdatesService
   export async function createIncidentUpdate(req, res){
     try {
         const id = Number(req.params.id)
         const update = await incidentUpdatesService.createIncidentUpdate(id,
-        req.body
-    )
+        req.body, req.session.userId)
     res.status(201).json(update)
         
     } catch (error) {
