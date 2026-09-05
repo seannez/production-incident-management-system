@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Navigate, useNavigate ,Link } from "react-router-dom";
+import { Navigate, useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 
@@ -30,42 +30,58 @@ export default function LoginPage() {
   }
 
   return (
-    <div>
-      <h1>Login</h1>
-
-      <form onSubmit={handleSubmit}>
+    <main className="login-page">
+      <div className="login-brand" aria-label="Incident Management Operations">
+        <div className="brand-mark" aria-hidden="true">!</div>
         <div>
-          <label>Email</label>
+          <strong>Incident Management</strong>
+          <span>Operations</span>
+        </div>
+      </div>
 
-          <input
-            type="email"
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
-          />
+      <section className="login-card">
+        <div className="login-heading">
+          <span className="login-eyebrow">Welcome back</span>
+          <h1>Sign in to your account</h1>
+          <p>Continue to Incident Management.</p>
         </div>
 
-        <div>
-          <label>Password</label>
+        <form className="login-form" onSubmit={handleSubmit}>
+          <div className="login-field">
+            <label htmlFor="login-email">Email address</label>
+            <input
+              id="login-email"
+              type="email"
+              autoComplete="email"
+              placeholder="you@example.com"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+            />
+          </div>
 
-          <input
-            type="password"
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-          />
-        </div>
+          <div className="login-field">
+            <label htmlFor="login-password">Password</label>
+            <input
+              id="login-password"
+              type="password"
+              autoComplete="current-password"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+            />
+          </div>
 
-        {error && <p>{error}</p>}
+          {error && <p className="login-error" role="alert">{error}</p>}
 
-        <button type="submit">
-          Login
-        </button>
-          <p>
-          Don't have an account?{" "}
-          <Link to="/register">
-              Register
-          </Link>
+          <button className="login-submit" type="submit">
+            Sign in
+          </button>
+
+          <p className="login-register">
+            Don't have an account? <Link to="/register">Create an account</Link>
           </p>
-      </form>
-    </div>
+        </form>
+      </section>
+    </main>
   );
 }

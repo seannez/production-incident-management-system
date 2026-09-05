@@ -63,15 +63,17 @@ function IncidentDetailsPage({incidents, onStatusChange}) {
 
                 <div className="incident-control incident-status-control">
                     <label className="incident-control-label" htmlFor="incident-status">Status</label>
-                    <select
-                      id="incident-status"
-                      value={incident.status}
-                      onChange={(event) => handleStatusChange(event.target.value)}
-                    >
-                      <option value="open">Open</option>
-                      <option value="investigating">Investigating</option>
-                      <option value="resolved">Resolved</option>
-                    </select>
+                    <div className={`status-select-wrapper status-${incident.status}`}>
+                      <select
+                        id="incident-status"
+                        value={incident.status}
+                        onChange={(event) => handleStatusChange(event.target.value)}
+                      >
+                        <option value="open">Open</option>
+                        <option value="investigating">Investigating</option>
+                        <option value="resolved">Resolved</option>
+                      </select>
+                    </div>
                 </div>
             </div>
 

@@ -15,9 +15,12 @@ import UpdatesPage from "./pages/UpdatesPage";
 import ProtectedRoute from "./components/auth/ProtectedRoute"
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
+import { useAuth } from "./context/AuthContext";
+import TeamsPage from "./pages/TeamsPage";
 
 function App() {
   const [incidents, setIncidents] = useState([]);
+  const { currentUser, loading } = useAuth();
 
   useEffect(() => {
     //Function definition
@@ -27,7 +30,7 @@ function App() {
     }
     //Function call
     loadIncidents();
-  }, []);
+  }, [currentUser]);
 
   async function AddIncident(incidentData) {
     const newIncident = await createIncident(incidentData);
@@ -89,6 +92,13 @@ function App() {
               />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
+              <Route path="/teams"
+                element={
+                  <ProtectedRoute>
+                    <TeamsPage />
+                  </ProtectedRoute>
+                }
+              />
             </Routes>
           </div>
           <div className="details-panel panel">

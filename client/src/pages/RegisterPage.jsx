@@ -48,70 +48,87 @@ export default function RegisterPage() {
   }
 
   return (
-    <div>
-      <h1>Register</h1>
-
-      <form onSubmit={handleSubmit}>
+    <main className="register-page">
+      <div className="login-brand">
+        <div className="brand-mark" aria-hidden="true">!</div>
         <div>
-          <label>Name</label>
+          <strong>Incident Management</strong>
+          <span>Operations</span>
+        </div>
+      </div>
 
-          <input
-            type="text"
-            value={name}
-            onChange={(event) => setName(event.target.value)}
-          />
+      <section className="login-card">
+        <div className="login-heading">
+          <span className="login-eyebrow">Get started</span>
+          <h1>Create your account</h1>
+          <p>Join your team and start managing incidents.</p>
         </div>
 
-        <div>
-          <label>Email</label>
+        <form className="login-form" onSubmit={handleSubmit}>
+          <div className="login-field">
+            <label htmlFor="register-name">Full name</label>
+            <input
+              id="register-name"
+              type="text"
+              autoComplete="name"
+              placeholder="Enter your name"
+              value={name}
+              onChange={(event) => setName(event.target.value)}
+            />
+          </div>
 
-          <input
-            type="email"
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
-          />
-        </div>
+          <div className="login-field">
+            <label htmlFor="register-email">Email address</label>
+            <input
+              id="register-email"
+              type="email"
+              autoComplete="email"
+              placeholder="you@example.com"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+            />
+          </div>
 
-        <div>
-          <label>Password</label>
+          <div className="login-field">
+            <label htmlFor="register-password">Password</label>
+            <input
+              id="register-password"
+              type="password"
+              autoComplete="new-password"
+              placeholder="Create a password"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+            />
+          </div>
 
-          <input
-            type="password"
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-          />
-        </div>
+          <div className="login-field">
+            <label htmlFor="register-team">Team</label>
+            <select
+              id="register-team"
+              value={teamId}
+              onChange={(event) => setTeamId(event.target.value)}
+            >
+              <option value="">Select a team</option>
 
-        <div>
-          <label>Team</label>
+              {teams.map((team) => (
+                <option key={team.id} value={team.id}>
+                  {team.name}
+                </option>
+              ))}
+            </select>
+          </div>
 
-          <select
-            value={teamId}
-            onChange={(event) => setTeamId(event.target.value)}
-          >
-            <option value="">Select a team</option>
+          {error && <p className="login-error" role="alert">{error}</p>}
 
-            {teams.map((team) => (
-              <option key={team.id} value={team.id}>
-                {team.name}
-              </option>
-            ))}
-          </select>
-        </div>
+          <button className="login-submit" type="submit">
+            Create account
+          </button>
 
-        {error && <p>{error}</p>}
-
-        <button type="submit">
-          Register
-        </button>
-      </form>
-
-      <p>
-        Already have an account?{" "}
-        <Link to="/login">
-          Login
-        </Link>
-      </p>
-    </div>
+          <p className="login-register">
+            Already have an account? <Link to="/login">Sign in</Link>
+          </p>
+        </form>
+      </section>
+    </main>
   );
 }

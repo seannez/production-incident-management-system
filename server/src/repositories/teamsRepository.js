@@ -21,3 +21,31 @@ export async function findAllTeams(){
 
     return result.rows;
 }
+
+export async function findTeamsWithMembers() {
+  const result = await pool.query(`
+    SELECT
+      t.id,
+      t.name,
+      COALESCE(
+        JSON_AGG(
+          JSON_BUILD_OBJECT(
+            'id', u.id,
+            'name', u.name,
+            'email', u.email
+          )
+        ) FILTER (WHERE u.id IS NOT NULL),
+        '[]'
+      ) AS members
+    FROM teams t
+    LEFT JOIN users u
+      ON u.team_id = t.id
+    GROUP BY
+      t.id,
+      t.name
+    ORDER BY
+      t.name
+  `);
+
+  return result.rows;
+}

@@ -16,6 +16,7 @@ export async function fetchIncidents() {
 export async function createIncident(incidentData) {
     const response = await fetch("http://localhost:3001/api/incidents", {
         method: "POST",
+        credentials: "include",
         headers: {
             "Content-Type": "application/json",
         },
@@ -34,6 +35,7 @@ export async function upDateIncidentStatus(id, status){
         `http://localhost:3001/api/incidents/${id}/status`,
         {
            method: "PATCH", 
+           credentials: "include",
            headers :{ 
                 "Content-Type": "application/json"
            },
@@ -49,7 +51,10 @@ export async function upDateIncidentStatus(id, status){
 }
 
 export async function fetchIncidentsUpdates(incidentId){
-    const response = await fetch(`http://localhost:3001/api/incidents/${incidentId}/updates`)
+    const response = await fetch(
+        `http://localhost:3001/api/incidents/${incidentId}/updates`,
+        { credentials: "include" }
+    )
 
     if(!response.ok){
         throw new Error("Failed to fetch incident updates")
@@ -62,6 +67,7 @@ export async function createIncidentUpdate(incidentId, updateData){
     const response = await fetch(
         `http://localhost:3001/api/incidents/${incidentId}/updates`, {
         method: "POST",
+        credentials: "include",
         headers: {
             "Content-Type": "application/json",
         },

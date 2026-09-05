@@ -40,8 +40,8 @@ export function AuthProvider({children}){
     }
 
     async function logout(){
-        await logout();
-        currentUser(null);
+        await logoutUser();
+        setCurrentUser(null);
     }
     return (
     <AuthContext.Provider
