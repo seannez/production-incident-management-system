@@ -58,12 +58,12 @@ CREATE TABLE incidents (
 
     assigned_to_user_id INTEGER,
 
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT fk_incident_assigned_user
-    FOREIGN KEY (assigned_to_user_id)
-    REFERENCES users(id)
-    ON DELETE SET NULL
+      FOREIGN KEY (assigned_to_user_id)
+      REFERENCES users(id)
+      ON DELETE SET NULL
 );
 
 

@@ -23,6 +23,14 @@ app.use(
   })
 );
 
+//Moved to before session to check docker
+app.get("/api/health", (req, res) => {
+  res.status(200).json({
+    status: "ok",
+  });
+});
+
+
 app.use(express.json());
 
 app.use(
@@ -46,12 +54,6 @@ app.use(
     },
   })
 );
-
-app.get("/api/health", (req, res) => {
-  res.status(200).json({
-    status: "ok",
-  });
-});
 
 app.use("/api/auth", authRoutes);
 app.use("/api/incidents", requireAuth, incidentsRoutes);
