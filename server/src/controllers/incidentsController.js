@@ -27,7 +27,7 @@ export async function getIncidentById(req, res) {
 
 export async function createNewIncident(req, res) {
     try {
-        const newIncident = await incidentsService.makeIncident(req.body);
+        const newIncident = await incidentsService.makeIncident(req.body, req.session.userId);
         return res.status(201).json(newIncident);
     } catch (error) {
         console.error("Failed to create incident:", error);

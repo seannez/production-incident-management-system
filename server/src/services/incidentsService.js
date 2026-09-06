@@ -12,8 +12,8 @@ export async function getIncidentById(id) {
     return await findIncidentById(id);
 }
 
-export async function makeIncident(incidentData){
-    return await createIncident(incidentData)
+export async function makeIncident(incidentData, userId){
+    return await createIncident(incidentData, userId)
 }
 //All status changes go through here!
 export async function changeStatus(id, status, userId){

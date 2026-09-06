@@ -56,9 +56,14 @@ CREATE TABLE incidents (
 
     affected_service VARCHAR(100) NOT NULL,
 
-    assigned_to VARCHAR(100) DEFAULT 'Unassigned',
+    assigned_to_user_id INTEGER,
 
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+
+    CONSTRAINT fk_incident_assigned_user
+    FOREIGN KEY (assigned_to_user_id)
+    REFERENCES users(id)
+    ON DELETE SET NULL
 );
 
 

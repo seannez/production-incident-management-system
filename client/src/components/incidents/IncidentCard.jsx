@@ -21,7 +21,7 @@ function IncidentCard({ incident }) {
             <td>
                 <span className={`badge ${statusClass}`}>{incident.status}</span>
             </td>
-            <td>{incident.assignedTo}</td>
+            <td>{incident.assignedTo ?? "Unassigned"}</td>
             <td>{new Date(incident.createdAt).toLocaleString()}</td>
         </tr>
     );
