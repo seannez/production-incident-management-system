@@ -29,10 +29,43 @@ test("check invalid email and password", async ({page}) =>{
 test("user can login successfully", async ({ page }) => {
   await page.goto("/login");
 
-  await page.getByLabel("Email").fill("shon@example.com");
-  await page.getByLabel("Password").fill("mypassword");
+  await page.getByLabel("Email").fill(process.env.E2E_EMAIL);
+  await page.getByLabel("Password").fill(process.env.E2E_PASSWORD);
 
   await page.getByRole("button", { name: /sign in/i }).click();
 
   await expect(page).toHaveURL(/\/incidents$/);
 });
+
+
+test("user can create a new incident", async ({ page }) => {
+  //unique name for incident
+  const incidentTitle = `Playwright Incident ${Date.now()}`;
+
+  //login
+  await page.goto("/login");
+
+  await page.getByLabel("Email").fill(process.env.E2E_EMAIL);
+  await page.getByLabel("Password").fill(process.env.E2E_PASSWORD);
+
+  await page.getByRole("button", { name: /sign in/i }).click();
+
+  await expect(page).toHaveURL(/\/incidents$/);
+
+  //press the button that opens the create incident page
+  await page.getByRole("link", { name: /new incident/i }).click();
+
+  //Fill the form
+  await page.getByLabel("Title").fill(incidentTitle)
+  await page.getByLabel("Description").fill("filled automaticlly by playwright")
+  await page.getByLabel("Severity").selectOption("high")
+  await page.getByLabel("Affected service").fill("Authentication Service")
+  //submit
+  await page.getByRole("button", {name: /create incident/i}).click()
+  //verify
+   await expect(page).toHaveURL(/\/incidents$/);
+   await expect(page.getByText(incidentTitle)).toBeVisible()
+
+
+})
+
