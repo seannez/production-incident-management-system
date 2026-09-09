@@ -145,3 +145,99 @@ await expect(
 
 });
 
+
+test("user can add a manual incident update", async ({ page }) => {
+  const incidentTitle = `Manual Update Test ${Date.now()}`;
+  const updateMessage = `Playwright manual update ${Date.now()}`;
+
+  //Login
+  await page.goto("/login");
+
+  await page.getByLabel("Email").fill(process.env.E2E_EMAIL);
+  await page.getByLabel("Password").fill(process.env.E2E_PASSWORD);
+
+  await page
+    .getByRole("button", { name: /sign in/i })
+    .click();
+
+  await expect(page).toHaveURL(/\/incidents$/);
+
+  //Open create incident page
+  await page
+    .getByRole("link", { name: /new incident/i })
+    .click();
+
+  //Fill incident form
+  await page.getByLabel("Title").fill(incidentTitle);
+
+  await page
+    .getByLabel("Description")
+    .fill("Incident for testing manual updates");
+
+  await page
+    .getByLabel("Severity")
+    .selectOption("medium");
+
+  await page
+    .getByLabel("Affected Service")
+    .fill("Payment Service");
+
+  //Create incident
+  await page
+    .getByRole("button", { name: /create incident/i })
+    .click();
+
+  await expect(page).toHaveURL(/\/incidents$/);
+
+  //Open the incident
+  await page
+    .getByText(incidentTitle, { exact: true })
+    .click();
+
+  await expect(page).toHaveURL(/\/incidents\/\d+$/);
+
+  //Add manual update
+  await page
+    .getByPlaceholder("Add incident update...")
+    .fill(updateMessage);
+
+  await page
+    .getByRole("button", { name: /add update/i })
+    .click();
+
+  //Verify update appears in timeline
+  await expect(
+    page.getByText(updateMessage, { exact: true })
+  ).toBeVisible();
+});
+
+test("user can logout successfully", async ({ page }) => {
+  //Login
+  await page.goto("/login");
+
+  await page.getByLabel("Email").fill(process.env.E2E_EMAIL);
+  await page.getByLabel("Password").fill(process.env.E2E_PASSWORD);
+
+  await page
+    .getByRole("button", { name: /sign in/i })
+    .click();
+
+  await expect(page).toHaveURL(/\/incidents$/);
+
+  //Logout
+  await page
+    .getByRole("button", { name: /logout/i })
+    .click();
+
+  //Verify logout
+  await expect(page).toHaveURL(/\/login$/);
+
+  await expect(
+    page.getByRole("button", { name: /sign in/i })
+  ).toBeVisible();
+
+  //Try accessing protected route again
+  await page.goto("/incidents");
+
+  await expect(page).toHaveURL(/\/login$/);
+});
