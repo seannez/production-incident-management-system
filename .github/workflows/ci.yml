@@ -1,0 +1,81 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      E2E_EMAIL: e2e@example.com
+      E2E_PASSWORD: playwright_test_password
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: install dependencies
+        run: npm ci
+
+      - name: Create CI environment file
+        run: |
+          echo "DB_USER=postgres" >> server/.env
+          echo "DB_PASSWORD=test_password" >> server/.env
+          echo "DB_NAME=incident_management" >> server/.env
+          echo "SESSION_SECRET=ci_test_secret" >> server/.env
+      
+      - name: Start application
+        run: docker compose --env-file ./server/.env up -d --build
+
+      - name: Wait for backend
+        run: |
+          for i in {1..30}; do
+            if curl -s http://localhost:3001/api/teams > /dev/null; then
+              echo "Backend is ready"
+              exit 0
+            fi
+
+            echo "Waiting for backend..."
+            sleep 2
+          done
+
+          echo "Backend failed to start"
+          docker compose logs
+          exit 1
+      
+      - name: Create E2E test user
+        run: |
+          curl -f -X POST http://localhost:3001/api/auth/register \
+            -H "Content-Type: application/json" \
+            -d '{
+              "name": "E2E User",
+              "email": "e2e@example.com",
+              "password": "playwright_test_password",
+              "teamId": 1
+            }'
+
+      - name: Check Node version
+        run: node --version
+
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+
+      - name: Run Playwright tests
+        run: npx playwright test
+    
+      - name: Show running containers
+        run: docker compose ps
+
+      
