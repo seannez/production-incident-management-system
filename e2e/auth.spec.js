@@ -122,15 +122,25 @@ test("user can update incident status", async ({ page }) => {
 
   await expect(page).toHaveURL(/\/incidents\/\d+$/);
 
-  const statusSelect = page.getByLabel("Status");
+ const statusSelect = page.getByLabel("Status");
 
 const responsePromise = page.waitForResponse(
   response =>
-    response.url().includes("/api/incidents/") &&
-    response.url().includes("/status") &&
-    response.request().method() === "PATCH"
+    response.request().method() === "PATCH" &&
+    response.url().includes("/api/incidents/")
 );
 
+await statusSelect.selectOption("resolved");
+
+const response = await responsePromise;
+
+expect(response.ok()).toBeTruthy();
+
+await expect(statusSelect).toHaveValue("resolved");
+
+await expect(
+  page.getByText(/changes status from open to resolved/i)
+).toBeVisible();
 await statusSelect.selectOption("resolved");
 
 const response = await responsePromise;
