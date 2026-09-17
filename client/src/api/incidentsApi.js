@@ -1,8 +1,10 @@
 // Placeholder for incident API calls.
 
+import { API_BASE_URL } from "./config.js";
+
 export async function fetchIncidents() {
     const response = await fetch(
-    "http://localhost:3001/api/incidents",
+    `${API_BASE_URL}/api/incidents`,
     {
       credentials: "include",
     }
@@ -14,7 +16,7 @@ export async function fetchIncidents() {
 }
 
 export async function createIncident(incidentData) {
-    const response = await fetch("http://localhost:3001/api/incidents", {
+    const response = await fetch(`${API_BASE_URL}/api/incidents`, {
         method: "POST",
         credentials: "include",
         headers: {
@@ -32,7 +34,7 @@ export async function createIncident(incidentData) {
 
 export async function upDateIncidentStatus(id, status){
     const response = await fetch (
-        `http://localhost:3001/api/incidents/${id}/status`,
+        `${API_BASE_URL}/api/incidents/${id}/status`,
         {
            method: "PATCH", 
            credentials: "include",
@@ -52,7 +54,7 @@ export async function upDateIncidentStatus(id, status){
 
 export async function fetchIncidentsUpdates(incidentId){
     const response = await fetch(
-        `http://localhost:3001/api/incidents/${incidentId}/updates`,
+        `${API_BASE_URL}/api/incidents/${incidentId}/updates`,
         { credentials: "include" }
     )
 
@@ -65,7 +67,7 @@ export async function fetchIncidentsUpdates(incidentId){
 
 export async function createIncidentUpdate(incidentId, updateData){
     const response = await fetch(
-        `http://localhost:3001/api/incidents/${incidentId}/updates`, {
+        `${API_BASE_URL}/api/incidents/${incidentId}/updates`,{
         method: "POST",
         credentials: "include",
         headers: {

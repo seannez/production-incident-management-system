@@ -1,4 +1,6 @@
-const API_URL = "http://localhost:3001/api/teams";
+import { API_BASE_URL } from "./config.js";
+
+const API_URL = `${API_BASE_URL}/api/teams`;
 
 export async function fetchTeams() {
   const response = await fetch(API_URL);
@@ -12,7 +14,7 @@ export async function fetchTeams() {
 
 export async function fetchTeamsWithMembers() {
   const response = await fetch(
-    "http://localhost:3001/api/teams/members",
+    `${API_URL}/members`,
     {
       credentials: "include",
     }

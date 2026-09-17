@@ -1,7 +1,9 @@
 //API calls for dashboard.
 
+import { API_BASE_URL } from "./config.js";
+
 export async function fetchDashboardSummary() {
-  const response = await fetch("http://localhost:3001/api/dashboard/summary",
+  const response = await fetch(`${API_BASE_URL}/api/dashboard/summary`,
     {
       credentials: "include",
     }
