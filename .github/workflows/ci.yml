@@ -26,7 +26,20 @@ jobs:
       - name: install dependencies
         run: npm ci
 
+      - name: Create CI environment file
+        run: |
+          echo "DB_USER=postgres" >> server/.env
+          echo "DB_PASSWORD=test_password" >> server/.env
+          echo "DB_NAME=incident_management" >> server/.env
+          echo "SESSION_SECRET=ci_test_secret" >> server/.env
+      
+      - name: Start application
+        run: docker compose --env-file ./server/.env up -d --build
+
       - name: Check Node version
         run: node --version
+
+      - name: Show running containers
+        run: docker compose ps
 
       
