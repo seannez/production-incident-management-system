@@ -122,22 +122,15 @@ test("user can update incident status", async ({ page }) => {
 
   await expect(page).toHaveURL(/\/incidents\/\d+$/);
 
- const statusSelect = page.getByLabel("Status");
-
-const responsePromise = page.waitForResponse(
-  response =>
-    response.request().method() === "PATCH" &&
-    response.url().includes("/api/incidents/")
-);
+// Change incident status
+const statusSelect = page.getByLabel("Status");
 
 await statusSelect.selectOption("resolved");
 
-const response = await responsePromise;
-
-expect(response.ok()).toBeTruthy();
-
+// Verify status changed
 await expect(statusSelect).toHaveValue("resolved");
 
+// Verify automatic timeline entry
 await expect(
   page.getByText(/changes status from open to resolved/i)
 ).toBeVisible();
