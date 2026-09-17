@@ -141,18 +141,6 @@ await expect(statusSelect).toHaveValue("resolved");
 await expect(
   page.getByText(/changes status from open to resolved/i)
 ).toBeVisible();
-await statusSelect.selectOption("resolved");
-
-const response = await responsePromise;
-
-expect(response.ok()).toBeTruthy();
-
-await expect(statusSelect).toHaveValue("resolved");
-
-await expect(
-  page.getByText(/changes status from open to resolved/i)
-).toBeVisible();
-
 });
 
 
