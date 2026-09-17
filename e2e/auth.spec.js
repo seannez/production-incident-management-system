@@ -130,7 +130,15 @@ await statusSelect.selectOption("resolved");
 // Verify status changed
 await expect(statusSelect).toHaveValue("resolved");
 
-// Verify automatic timeline entry
+// Reload the incident from the backend
+await page.reload();
+
+// Verify that the status was actually persisted
+await expect(
+  page.getByLabel("Status")
+).toHaveValue("resolved");
+
+// Verify automatic timeline entry persisted
 await expect(
   page.getByText(/changes status from open to resolved/i)
 ).toBeVisible();
