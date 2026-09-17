@@ -65,8 +65,6 @@ jobs:
               "password": "playwright_test_password",
               "teamId": 1
             }'
-      - name: Install Playwright browser
-        run: npx playwright install --with-deps chromium
 
       - name: Check Node version
         run: node --version
