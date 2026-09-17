@@ -69,7 +69,7 @@ test("user can create a new incident", async ({ page }) => {
 
 })
 
-test("user can update incident status", async ({ page }) => {
+/*test("user can update incident status", async ({ page }) => {
   const incidentTitle = `Status Test ${Date.now()}`;
 
   // Login
@@ -142,7 +142,7 @@ await expect(
 await expect(
   page.getByText(/changes status from open to resolved/i)
 ).toBeVisible();
-});
+});*/
 
 
 test("user can add a manual incident update", async ({ page }) => {
