@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/seannez/production-incident-management-system#readme",
   "devDependencies": {
+    "@playwright/test": "^1.63.0",
     "concurrently": "^10.0.5"
   }
 }
