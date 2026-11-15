@@ -1,4 +1,5 @@
 // Placeholder for Express app setup.
+import "dotenv/config";
 import incidentsRoutes from "./routes/incidentsRoutes.js";
 import incidentUpdatesRoutes from "./routes/incidentUpdatesRoutes.js";
 import dashboardRoutes from "./routes/dashboardRoutes.js";
